@@ -28,11 +28,13 @@ def setRegion(region):
     
     return inputX, inputY
 
-data_All = sio.loadmat("/Volumes/TONY/LabWW/Alzheimer/GSE44772/GSE44772_data.mat")
+data_PFC = sio.loadmat("../data/GSE44772_PFC.mat")
 
-data_PFC = sio.loadmat("/Volumes/TONY/LabWW/Alzheimer/GSE44772/GSE44772_PFC.mat")
-data_VC = sio.loadmat("/Volumes/TONY/LabWW/Alzheimer/GSE44772/GSE44772_VC.mat")
-data_CR = sio.loadmat("/Volumes/TONY/LabWW/Alzheimer/GSE44772/GSE44772_CR.mat")
+info_PFC = sio.loadmat("../data/PFC_IG_refined.mat")
+
+index_gmm_PFC = np.argsort(info_PFC['gmm']['ig'][0][0][0])[-10000:]
+index_median_PFC = np.argsort(info_PFC['median']['ig'][0][0][0])[-10000:]
+
 
 for region in ['PFC']:
     print("Start training for region: "+region)
@@ -52,4 +54,4 @@ for region in ['PFC']:
     	weights.append(dfsMLP.selected_ws[0])
 
     # The generated weights will be in the weights folder
-    np.save("./weights/weights_"+region, weights)
+    np.save("./weights/refined_weights_"+region, weights)
